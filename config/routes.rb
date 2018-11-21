@@ -3,4 +3,8 @@ Rails.application.routes.draw do
   root 'posts#index'
 
   resources :posts, only: [:index]
+  
+  namespace :api, { format: 'json' } do
+    resources :likes, only: [:index, :create, :destroy]
+  end
 end
