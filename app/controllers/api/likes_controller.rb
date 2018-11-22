@@ -2,12 +2,11 @@ class Api::LikesController < ActionController::API
   before_action :authenticate_user!
 
   def index
-    favorite_courses = current_user.likes
-    render json: favorite_courses
+    render json: current_user.likes.filter_by_post(params[:post_id]).select(:id, :user_id, :post_id)
   end
 
   def create
-    Like.create!(likes_params)
+    Like.create!(likes_params.merge(user_id: current_user.id))
     head :created
   end
 
@@ -19,6 +18,6 @@ class Api::LikesController < ActionController::API
   private
   
   def likes_params
-    params.require(:likes).permit(:post_id, :user_id)
+    params.require(:like).permit(:post_id)
   end
 end
