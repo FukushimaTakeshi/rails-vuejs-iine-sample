@@ -9,3 +9,8 @@ docker-compose up
 # 初回以降
 docker-compose up
 ```
+
+### ログイン
+http://localhost:3000/users/sign_in
+- User & Password
+  - [seeds.rb](db/seeds.rb)
