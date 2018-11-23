@@ -1,12 +1,12 @@
 <template>
-  <span>
-    <span v-if="isLiked" @click="deleteLike()" class="icon is-medium has-text-warning">
-      <div class="fas fa-lg fa-star">あんいいね</div>{{ count }}
-    </span>
-    <span v-else @click="registerLike()" class="icon is-medium has-text-warning">
-      <div class="far fa-lg fa-star">いいね</div>{{ count }}
-    </span>
-  </span>
+  <div>
+    <div v-if="isLiked" @click="deleteLike()">
+      いいねを取り消す {{ count }}
+    </div>
+    <div v-else @click="registerLike()">
+      いいねする {{ count }}
+    </div>
+  </div>
 </template>
 
 <script>
@@ -27,7 +27,7 @@ export default {
     },
     isLiked() {
       if (this.likeList.length === 0) { return false }
-      return Boolean(this.findLikeId)
+      return Boolean(this.findLikeId())
     }
   },
   created: function() {
@@ -42,7 +42,7 @@ export default {
       return res.data
     },
     registerLike: async function() {
-      const res = await axios.post(`/api/likes`, { post_id: this.postId })
+      const res = await axios.post('/api/likes', { post_id: this.postId })
       if (res.status !== 201) { process.exit() }
       this.fetchLikeByPostId().then(result => {
         this.likeList = result
@@ -58,7 +58,7 @@ export default {
       const like = this.likeList.find((like) => {
         return (like.user_id === this.userId)
       })
-      return like.id
+      if (like) { return like.id }
     }
   }
 }

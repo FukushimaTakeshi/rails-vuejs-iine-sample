@@ -31,12 +31,12 @@ WORKDIR $APP
 
 # bundle install
 COPY Gemfile Gemfile
-# COPY Gemfile.lock Gemfile.lock
+COPY Gemfile.lock Gemfile.lock
 RUN bundle install --path vendor/bundle
-# 
+#
 # # yarn install
-# COPY package.json package.json
-# COPY yarn.lock yarn.lock
-# RUN yarn install
+COPY package.json package.json
+COPY yarn.lock yarn.lock
+RUN yarn install
 
 ADD . $APP
